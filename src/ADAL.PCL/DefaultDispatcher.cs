@@ -39,11 +39,16 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
     {
         internal IDictionary<string, List<Tuple<string, string>>> ObjectsToBeDispatched = new ConcurrentDictionary<string, List<Tuple<string, string>>>();
 
-        internal IDispatcher Dispatch { get; set; }
+        internal IDispatcher Dispatcher;
+
+        internal DefaultDispatcher()
+        {
+            Dispatcher = null;
+        }
 
         internal DefaultDispatcher(IDispatcher dispatcher)
         {
-            
+            Dispatcher = dispatcher;
         }
 
         internal virtual void Flush()

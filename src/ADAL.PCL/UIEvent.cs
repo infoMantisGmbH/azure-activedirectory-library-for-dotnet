@@ -33,9 +33,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class UiEvent : DefaultEvents
+    internal class UiEvent : DefaultEvent
     {
-        internal UiEvent(string eventName)
+        internal UiEvent(string eventName) : base(eventName)
         {
             //Fill in the default parameters
         }

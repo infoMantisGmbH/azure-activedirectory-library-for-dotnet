@@ -42,7 +42,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public static Telemetry GetInstance()
         {
-                return Instance;
+            return Instance;
         }
 
         DefaultDispatcher Dispatcher = new DefaultDispatcher();

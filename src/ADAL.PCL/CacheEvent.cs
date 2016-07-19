@@ -33,9 +33,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class CacheEvent : DefaultEvents
+    internal class CacheEvent : DefaultEvent
     {
-        internal CacheEvent(string eventName)
+        internal CacheEvent(string eventName) : base(eventName)
         {
             //Fill in the default parameters
         }

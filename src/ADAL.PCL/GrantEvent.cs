@@ -33,9 +33,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class GrantEvent : DefaultEvents
+    internal class GrantEvent : DefaultEvent
     {
-        internal GrantEvent(string eventName)
+        internal GrantEvent(string eventName) : base(eventName)
         {
             //Fill in default parameters
         }

@@ -33,9 +33,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class BrokerEvent : DefaultEvents
+    internal class BrokerEvent : DefaultEvent
     {
-        internal BrokerEvent(string eventName)
+        internal BrokerEvent(string eventName) : base(eventName)
         {
             //Fill in the default parameters
         }

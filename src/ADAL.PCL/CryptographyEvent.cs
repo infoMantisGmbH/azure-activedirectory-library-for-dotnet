@@ -33,9 +33,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class CryptographyEvent : DefaultEvents
+    internal class CryptographyEvent : DefaultEvent
     {
-        internal CryptographyEvent(string eventName)
+        internal CryptographyEvent(string eventName) : base(eventName)
         {
             
         }

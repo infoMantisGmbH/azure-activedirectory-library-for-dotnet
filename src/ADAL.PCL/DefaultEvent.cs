@@ -33,11 +33,11 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class DefaultEvents : EventsBase
+    internal class DefaultEvent : EventsBase
     {
-        static internal List<Tuple<string, string>> defaultEvents = new List<Tuple<string, string>>();
+        static internal List<Tuple<string, string>> DefaultEvents = new List<Tuple<string, string>>();
 
-        internal void DefaultEvent(string eventName)
+        internal DefaultEvent(string eventName)
         {
             //Fill in the default parameters
         }

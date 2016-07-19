@@ -33,9 +33,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class HttpEvent : DefaultEvents
+    internal class HttpEvent : DefaultEvent
     {
-        internal HttpEvent(string eventName)
+        internal HttpEvent(string eventName) : base(eventName)
         {
             
         }

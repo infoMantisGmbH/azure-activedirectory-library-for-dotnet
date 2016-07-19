@@ -33,7 +33,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal abstract class EventsBase
+    internal interface IEventsInterface
     {
         internal List<Tuple<string, string>> List = new List<Tuple<string, string>>();
 
@@ -42,7 +42,5 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal abstract void SetEvent(string eventName, string eventParameter);
 
         internal abstract List<Tuple<string, string>> GetEvents(string eventName);
-
-        internal abstract int GetDefaultEventCount();
     }
 }

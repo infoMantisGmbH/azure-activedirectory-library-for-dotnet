@@ -41,19 +41,20 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         {
             //Fill in the default parameters
         }
+
         internal override void SetEvent(string eventName, string eventParameter)
         {
-            throw new NotImplementedException();
+
         }
 
         internal override List<Tuple<string, string>> GetEvents(string eventName)
         {
-            throw new NotImplementedException();
+
         }
 
         internal override int GetDefaultEventCount()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

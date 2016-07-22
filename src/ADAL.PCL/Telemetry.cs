@@ -59,19 +59,25 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             
         }
 
-        void StartEvent(string requestId, string eventName)
+        internal void StartEvent(string requestId, string eventName)
         {
             
         }
 
-        void StopEvent(string requestId, EventsBase Event)
+        internal void StopEvent(string requestId, EventsBase Event)
+        {
+            //remove it from the map
+            //time calculation
+            //add the response time
+        }
+
+        internal void DispatchEventNow(string requestID, EventsBase Event)
         {
             
         }
 
-        void DispatchEventNow(string requestID, EventsBase Event)
-        {
-            
-        }
+        internal string StartTime { get; set; }
+
+        internal string EndTime { get; set; }
     }
 }

@@ -39,5 +39,12 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         {
             //Fill in the default parameters
         }
+
+        internal string BrokerApp { get; set; }
+
+        internal string BrokerVersion { get; set; }
+
+        internal string BrokerProtocolVersion { get; set; }
+
     }
 }

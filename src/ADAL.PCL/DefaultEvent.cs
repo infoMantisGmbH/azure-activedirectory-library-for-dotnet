@@ -47,14 +47,31 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         }
 
-        internal override List<Tuple<string, string>> GetEvents(string eventName)
+        internal override List<Tuple<string, string>> GetEvents(string requestId)
         {
-
+            
         }
 
-        internal override int GetDefaultEventCount()
-        {
+        internal string ClientId { get; set; }
 
-        }
+        internal string ClientIp { get; set; }
+
+        internal string ApplicationName { get; set; }
+
+        internal string ApplicationVersion { get; set; }
+
+        internal string SdkId { get; set; }
+
+        internal string SdkVersion { get; set; }
+
+        internal string UserId { get; set; }
+
+        internal string DeviceId { get; set; }
+
+        internal string Tenant { get; set; }
+
+        internal string Issuer { get; set; }
+
+        internal string Idp { get; set; }
     }
 }

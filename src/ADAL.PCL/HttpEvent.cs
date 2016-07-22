@@ -49,5 +49,23 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         {
             
         }
+
+        internal string UserAgent { get; set; }
+
+        internal string HttpMethod { get; set; }
+
+        internal string HttpPath { get; set; }
+
+        internal string HttpResponseCode { get; set; }
+
+        internal string HttpQueryParameters { get; set; }
+
+        internal string HttpResponseMethod { get; set; }
+
+        internal string RequestApiVersion { get; set; }
+
+        internal string ResponseApiVersion { get; set; }
+
+        internal string ResponseTime { get; set; }
     }
 }

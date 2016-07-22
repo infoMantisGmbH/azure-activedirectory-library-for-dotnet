@@ -41,5 +41,8 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         }
 
         //Setters for the properties
+        internal string LoginHint { get; set; }
+
+        internal string DomainHint { get; set; }
     }
 }

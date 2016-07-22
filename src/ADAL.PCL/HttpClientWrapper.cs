@@ -70,6 +70,8 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public async Task<IHttpWebResponse> GetResponseAsync()
         {
+            HttpEvent httpEvent = new HttpEvent("http_time");
+
             using (HttpClient client = new HttpClient(HttpMessageHandlerFactory.GetMessageHandler(this.UseDefaultCredentials)))
             {
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -115,8 +117,16 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                     {
                         requestMessage.Method = HttpMethod.Get;
                     }
-
+                    httpEvent.UserAgent=client.DefaultRequestHeaders.UserAgent.ToString();
+                    httpEvent.RequestApiVersion = requestMessage.Version.ToString();
+                    httpEvent.HttpQueryParameters = this.BodyParameters.ToString();
+                    httpEvent.HttpResponseMethod = requestMessage.Method.ToString();
+                    Telemetry.GetInstance().StartEvent(this.CallState.RequestId.ToString(),"http_time");
+                    //make 
                     responseMessage = await client.SendAsync(requestMessage).ConfigureAwait(false);
+                    //Stop Event
+                    httpEvent.HttpResponseCode = responseMessage.StatusCode.ToString();
+                    Telemetry.GetInstance().StopEvent(this.CallState.RequestId.ToString(),httpEvent);
                 }
                 catch (TaskCanceledException ex)
                 {

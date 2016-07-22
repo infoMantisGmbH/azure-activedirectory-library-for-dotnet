@@ -31,13 +31,18 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class CallState
     {
-        public CallState(Guid correlationId)
+        public CallState(Guid correlationId, Guid requestId)
         {
             this.CorrelationId = correlationId;
+            this.RequestId = requestId;
         }
-
+        //Add the RequestID as correlationID
         public Guid CorrelationId { get; set; }
 
+        public Guid RequestId { get; set; }
+
         public AuthorityType AuthorityType { get; internal set; }
+
+
     }
 }

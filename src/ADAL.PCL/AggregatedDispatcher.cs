@@ -35,19 +35,46 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     class AggregatedDispatcher : DefaultDispatcher
     {
+        private int DefaultCount = 12;
+
         internal AggregatedDispatcher(IDispatcher dispatcher):base(dispatcher)
         {
-            
+            Dispatcher = dispatcher;
         }
 
-        internal override void Flush()
+        internal void Flush()
         {
-            
+            bool first = true;
+            List<Tuple<string, string>> FlatList = new List<Tuple<string, string>>();
+            foreach (KeyValuePair<string, List<EventsBase>> pair in ObjectsToBeDispatched)
+            {
+                foreach (EventsBase Event in pair.Value)
+                {
+                    List<Tuple<string, string>> EventList = Event.GetEvents(pair.Key);
+                    if (first)
+                    {
+                        FlatList.AddRange(EventList);
+                        first = false;
+                        continue;
+                    }
+                    for (int i = DefaultCount; i < EventList.Count; i++)
+                    {
+                        FlatList.Add(EventList[i]);
+                    }
+                }
+
+            }
+            Dispatcher.Dispatch(FlatList);
         }
 
         internal override void Receive(string requestId, EventsBase eventsInterface)
         {
-            
+            List<EventsBase> eventValue;
+            if (ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
+            {
+                eventValue.Add(eventsInterface);
+                ObjectsToBeDispatched.Add(requestId, eventValue);
+            }
         }
     }
 }

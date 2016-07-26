@@ -37,28 +37,23 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class DefaultDispatcher
     {
-        internal IDictionary<string, List<Tuple<string, string>>> ObjectsToBeDispatched = new ConcurrentDictionary<string, List<Tuple<string, string>>>();
+        internal IDictionary<string, List<EventsBase>> ObjectsToBeDispatched = new ConcurrentDictionary<string, List<EventsBase>>();
 
-        internal IDispatcher Dispatcher;
-
-        internal DefaultDispatcher()
-        {
-            Dispatcher = null;
-        }
+        internal IDispatcher Dispatcher ;
 
         internal DefaultDispatcher(IDispatcher dispatcher)
         {
             Dispatcher = dispatcher;
         }
 
-        internal virtual void Flush()
+        internal virtual void Flush(string requestId)
         {
-            
+               
         }
 
         internal virtual void Receive(string requestId, EventsBase eventsInterface)
         {
-            
+            Dispatcher.Dispatch(eventsInterface.GetEvents(requestId));
         }
 
     }

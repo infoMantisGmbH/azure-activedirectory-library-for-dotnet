@@ -35,7 +35,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal abstract class EventsBase
     {
-        internal List<Tuple<string, string>> EventMap = new List<Tuple<string, string>>();
+        internal List<Tuple<string, string>> Events = new List<Tuple<string, string>>();
 
         internal abstract void SetEvent(string eventName, string eventParameter);
 

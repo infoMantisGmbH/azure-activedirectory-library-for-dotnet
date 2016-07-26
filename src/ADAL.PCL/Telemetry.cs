@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-//----------------------------------------------------------------------
+﻿//----------------------------------------------------------------------
 //
 // Copyright (c) Microsoft Corporation.
 // All rights reserved.
@@ -28,6 +25,9 @@ using System.Collections.Generic;
 //
 //------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -45,34 +45,64 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             return Instance;
         }
 
-        DefaultDispatcher Dispatcher = new DefaultDispatcher();
+        DefaultDispatcher Dispatcher = null ;
 
-        private IDictionary<List<Tuple<string, string>>,string> EventTracking = new ConcurrentDictionary<List<Tuple<string, string>>,string>();
+        private IDictionary<Tuple<string, string>,string> EventTracking = new ConcurrentDictionary<Tuple<string, string>,string>();
 
-        string RegisterNewRequest()
+        internal string RegisterNewRequest()
         {
-            //return the RequestID
+            return new Guid().ToString();
         }
 
         public void RegisterDispatcher(IDispatcher dispatcher, bool aggregationRequired)
         {
-            
+            if (aggregationRequired)
+            {
+                Dispatcher = new DefaultDispatcher(dispatcher);
+            }
+            else
+            {
+                Dispatcher = new AggregatedDispatcher(dispatcher);
+            }
         }
 
         internal void StartEvent(string requestId, string eventName)
         {
-            
+            EventTracking.Add(new Tuple<string, string>(requestId,eventName),DateTime.UtcNow.ToString());
         }
 
-        internal void StopEvent(string requestId, EventsBase Event)
+        internal void StopEvent(string requestId, EventsBase Event,string eventName)
         {
+            string value;
+            List<Tuple<string, string>> listEvent = Event.GetEvents(eventName);
+            if (EventTracking.
+                TryGetValue(new Tuple<string, string>(requestId, eventName), out value))
+            {
+                DateTime startTime = DateTimeOffset.Parse(value).UtcDateTime;
+                System.TimeSpan diff1 = DateTime.UtcNow.Subtract(startTime);
+                //Add the response time to the list
+                listEvent.Add(new Tuple<string, string>("response_time",diff1.ToString()));
+                //Adding event name to the start of the list
+                listEvent.Insert(0, new Tuple<string, string>("EventName",eventName));
+                //Remove the event from the tracking Map
+                EventTracking.Remove(new Tuple<string, string>(requestId, eventName));
+            }
+            List<EventsBase> eventValue;
+            if (Dispatcher.ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
+            {
+                eventValue.Add(Event);
+                Dispatcher.ObjectsToBeDispatched.Add(requestId, eventValue);
+            }
             //remove it from the map
             //time calculation
             //add the response time
         }
 
-        internal void DispatchEventNow(string requestID, EventsBase Event)
+        internal void DispatchEventNow(string requestID, EventsBase Event,string eventName)
         {
+            EventTracking.Remove(new Tuple<string, string>(requestID, eventName));
+            List<Tuple<string, string>> listEvent = Event.GetEvents(eventName);
+            Dispatcher.ObjectsToBeDispatched.Add(requestID,listEvent);
             
         }
 

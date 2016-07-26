@@ -44,12 +44,12 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal override void SetEvent(string eventName, string eventParameter)
         {
-
+            DefaultEvents.Add(new Tuple<string, string>(eventName,eventParameter));
         }
 
         internal override List<Tuple<string, string>> GetEvents(string requestId)
         {
-            
+            return DefaultEvents;
         }
 
         internal string ClientId { get; set; }

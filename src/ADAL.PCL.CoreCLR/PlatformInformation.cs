@@ -61,5 +61,20 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             // Since ADAL .NET may be used on servers, for security reasons, we do not emit device type.
             return null;
         }
+
+        public override string GetApplicationName()
+        {
+            return base.ToString();
+        }
+
+        public override string GetApplicationVersion()
+        {
+            return base.ToString();
+        }
+
+        public override string GetDeviceId()
+        {
+            return null;
+        }
     }
 }

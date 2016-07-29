@@ -45,6 +45,22 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public abstract string GetDeviceModel();
 
+        public abstract string GetDeviceId();
+
+        public abstract string GetApplicationName();
+
+        public abstract string GetApplicationVersion();
+
+        public virtual string GetBrokerAppName()
+        {
+            return "Authenticator App";
+        }
+
+        public virtual string GetBrokerVersion()
+        {
+            return "2";
+        }
+
         public virtual string GetAssemblyFileVersionAttribute()
         {
             return typeof(AdalIdHelper).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;

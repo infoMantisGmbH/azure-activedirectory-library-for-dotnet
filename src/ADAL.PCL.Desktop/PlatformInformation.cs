@@ -79,10 +79,25 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             return Environment.OSVersion.ToString();
         }
 
+        public override string GetDeviceId()
+        {
+            return DeviceID.strDeviceID;
+        }
+
         public override string GetDeviceModel()
         {
             // Since ADAL .NET may be used on servers, for security reasons, we do not emit device type.
             return null;
+        }
+
+        public override string GetApplicationName()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        }
+
+        public override string GetApplicationVersion()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         public override async Task<bool> IsUserLocalAsync(CallState callState)

@@ -34,6 +34,8 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Foundation;
+using UIKit;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
@@ -75,6 +77,21 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         {
             // TODO: Check if assembly file version can be read in iOS assembly as well or not. For now, we use assembly version instead.
             return typeof(AdalIdHelper).GetTypeInfo().Assembly.GetName().Version.ToString();
+        }
+
+        public override string GetApplicationName()
+        {
+            return NSBundle.MainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
+        }
+
+        public override string GetApplicationVersion()
+        {
+            return NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
+        }
+
+        public override string GetDeviceId()
+        {
+            return UIDevice.CurrentDevice.IdentifierForVendor.AsString();
         }
     }
 }

@@ -31,20 +31,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class DefaultEvent : EventsBase
     {
-        static internal List<Tuple<string, string>> DefaultEvents = new List<Tuple<string, string>>();
+        internal static List<Tuple<string, string>> DefaultEvents = new List<Tuple<string, string>>();
 
         internal DefaultEvent(string eventName)
         {
             //Fill in the default parameters
+            ApplicationName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            ApplicationVersion = System.;
+            SdkVersion = AdalIdHelper.GetAdalVersion();
+            SdkId = AdalIdHelper.GetAssemblyFileVersion();
+
+            DeviceId = PlatformPlugin.PlatformInformation.GetDeviceModel();
+            Tenant = IdTokenClaim.TenantId;
+            Issuer = IdTokenClaim.Issuer;
+            Idp = IdTokenClaim.IdentityProvider;
+            Upn = IdTokenClaim.UPN;
+            Email = IdTokenClaim.Email;
+            PasswordExpiration = IdTokenClaim.PasswordExpiration;
+            PasswordChangeUrl = IdTokenClaim.PasswordChangeUrl;
+            FamilyName = IdTokenClaim.FamilyName;
+
+
         }
 
         internal override void SetEvent(string eventName, string eventParameter)
         {
-            DefaultEvents.Add(new Tuple<string, string>(eventName,eventParameter));
+            DefaultEvents.Add(new Tuple<string, string>(eventName, eventParameter));
         }
 
         internal override List<Tuple<string, string>> GetEvents(string requestId)
@@ -73,5 +90,15 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal string Issuer { get; set; }
 
         internal string Idp { get; set; }
+
+        internal string Upn { get; set; }
+
+        internal string Email { get; set; }
+
+        internal string PasswordExpiration { get; set; }
+
+        internal string PasswordChangeUrl { get; set; }
+
+        internal string FamilyName { get; set; }
     }
 }

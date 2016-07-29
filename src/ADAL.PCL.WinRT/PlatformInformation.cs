@@ -81,6 +81,11 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public override string GetDeviceModel()
         {
+            return null;
+        }
+
+        public override string GetDeviceId()
+        {
             var deviceInformation = new Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation();
             return deviceInformation.SystemProductName;
         }
@@ -137,6 +142,17 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                     authorizationRequestParameters[OAuthParameter.Prompt] = PromptValue.AttemptNone;
                     break;
             }
+        }
+
+        public override string GetApplicationName()
+        {
+            return Windows.ApplicationModel.Package.Current.Id.Name.ToString();
+        }
+
+        public override string GetApplicationVersion()
+        {
+            var ver = Windows.ApplicationModel.Package.Current.Id.Version;
+            return ver.Major.ToString() + "." + ver.Minor.ToString() + "." + ver.Build.ToString() + "." + ver.Revision.ToString();
         }
 
 

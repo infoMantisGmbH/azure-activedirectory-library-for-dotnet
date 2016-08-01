@@ -81,7 +81,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public override string GetApplicationName()
         {
-            return NSBundle.MainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
+            return NSBundle.MainBundle.BundleIdentifier;
         }
 
         public override string GetApplicationVersion()

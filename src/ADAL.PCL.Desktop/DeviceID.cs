@@ -96,9 +96,8 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                     switch (error)
                     {
                         case ERROR_NOT_SUPPORTED:
-                            throw new NotSupportedException(
-                                "IOCTL_HAL_GET_DEVICEID is not supported on this device",
-                                new Win32Exception(error));
+                            PlatformPlugin.Logger.Warning(null, "IOCTL_HAL_GET_DEVICEID is not supported on this device");
+                            break;
 
                         case ERROR_INSUFFICIENT_BUFFER:
 
@@ -116,7 +115,8 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                             break;
 
                         default:
-                            throw new Win32Exception(error, "Unexpected error");
+                            PlatformPlugin.Logger.Warning(null, "Unexpected error");
+                            break;
                     }
                 }
             }

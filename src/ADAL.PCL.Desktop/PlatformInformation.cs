@@ -81,7 +81,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public override string GetDeviceId()
         {
-            return DeviceID.strDeviceID;
+            return DeviceID.GetDeviceID();
         }
 
         public override string GetDeviceModel()

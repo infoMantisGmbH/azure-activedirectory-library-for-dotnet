@@ -64,12 +64,12 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public override string GetApplicationName()
         {
-            return base.ToString();
+            return null;
         }
 
         public override string GetApplicationVersion()
         {
-            return base.ToString();
+            return null;
         }
 
         public override string GetDeviceId()

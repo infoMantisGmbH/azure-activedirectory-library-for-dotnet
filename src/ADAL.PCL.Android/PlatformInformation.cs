@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.Provider;
-using Java.Lang;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {

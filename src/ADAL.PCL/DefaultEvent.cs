@@ -40,23 +40,45 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal DefaultEvent(string eventName)
         {
+            SetEvent(TelemetryStrings.EventName,eventName);
             //Fill in the default parameters
-            ApplicationName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            ApplicationVersion = System.;
+            ApplicationName = PlatformPlugin.PlatformInformation.GetApplicationName();
+            SetEvent(TelemetryStrings.ApplicationName,ApplicationName);
+
+            ApplicationVersion = PlatformPlugin.PlatformInformation.GetApplicationVersion();
+            SetEvent(TelemetryStrings.ApplicationVersion, ApplicationVersion);
+
             SdkVersion = AdalIdHelper.GetAdalVersion();
-            SdkId = AdalIdHelper.GetAssemblyFileVersion();
+            SetEvent(TelemetryStrings.SdkVersion, SdkVersion);
+
+            //SdkId = AdalIdHelper.GetAssemblyFileVersion();
 
             DeviceId = PlatformPlugin.PlatformInformation.GetDeviceModel();
+            SetEvent(TelemetryStrings.DeviceId, DeviceId);
+
             Tenant = IdTokenClaim.TenantId;
+            SetEvent(TelemetryStrings.Tenant, Tenant);
+
             Issuer = IdTokenClaim.Issuer;
+            SetEvent(TelemetryStrings.Issuer, Issuer);
+
             Idp = IdTokenClaim.IdentityProvider;
+            SetEvent(TelemetryStrings.Idp, Idp);
+
             Upn = IdTokenClaim.UPN;
+            SetEvent(TelemetryStrings.Upn, Upn);
+
             Email = IdTokenClaim.Email;
+            SetEvent(TelemetryStrings.Email, Email);
+
             PasswordExpiration = IdTokenClaim.PasswordExpiration;
+            SetEvent(TelemetryStrings.PasswordExpiration, PasswordExpiration);
+
             PasswordChangeUrl = IdTokenClaim.PasswordChangeUrl;
+            SetEvent(TelemetryStrings.PasswordChangeUrl, PasswordChangeUrl);
+
             FamilyName = IdTokenClaim.FamilyName;
-
-
+            SetEvent(TelemetryStrings.FamilyName,FamilyName);
         }
 
         internal override void SetEvent(string eventName, string eventParameter)
@@ -68,6 +90,8 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         {
             return DefaultEvents;
         }
+
+        internal string eventName { get; set; }
 
         internal string ClientId { get; set; }
 

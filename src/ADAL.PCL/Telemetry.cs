@@ -87,27 +87,26 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                 //Remove the event from the tracking Map
                 EventTracking.Remove(new Tuple<string, string>(requestId, eventName));
             }
-            List<EventsBase> eventValue;
-            if (Dispatcher.ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
-            {
-                eventValue.Add(Event);
-                Dispatcher.ObjectsToBeDispatched.Add(requestId, eventValue);
-            }
+            Dispatcher.Receive(requestId,Event);
             //remove it from the map
             //time calculation
             //add the response time
         }
 
-        internal void DispatchEventNow(string requestID, EventsBase Event,string eventName)
+        internal void DispatchEventNow(string requestId, EventsBase Event,string eventName)
         {
-            EventTracking.Remove(new Tuple<string, string>(requestID, eventName));
+            EventTracking.Remove(new Tuple<string, string>(requestId, eventName));
             List<Tuple<string, string>> listEvent = Event.GetEvents(eventName);
-            Dispatcher.ObjectsToBeDispatched.Add(requestID,listEvent);
-            
+            Dispatcher.Receive(requestId,Event);
         }
 
         internal string StartTime { get; set; }
 
         internal string EndTime { get; set; }
+
+        internal int EventsStored()
+        {
+            return EventTracking.Count;
+        }
     }
 }

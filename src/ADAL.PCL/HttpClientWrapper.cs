@@ -126,7 +126,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                     responseMessage = await client.SendAsync(requestMessage).ConfigureAwait(false);
                     //Stop Event
                     httpEvent.HttpResponseCode = responseMessage.StatusCode.ToString();
-                    Telemetry.GetInstance().StopEvent(this.CallState.RequestId.ToString(),httpEvent);
+                    //Telemetry.GetInstance().StopEvent(this.CallState.RequestId.ToString(),httpEvent);
                 }
                 catch (TaskCanceledException ex)
                 {

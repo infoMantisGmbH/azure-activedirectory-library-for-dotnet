@@ -26,6 +26,8 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
@@ -59,6 +61,41 @@ namespace AdalDesktopTestApp
 
             string token = result.AccessToken;
             Console.WriteLine(token + "\n");
+            
+        }
+    }
+
+    class DispatcherImplement : IDispatcher
+    {
+        private readonly List<List<Tuple<string, string>>> storeList = new List<List<Tuple<string, string>>>();
+
+        void IDispatcher.Dispatch(List<Tuple<string, string>> Event)
+        {
+            storeList.Add(Event);
+        }
+
+        public int Count
+        {
+            get { return storeList.Count; }
+        }
+
+        public void clear()
+        {
+            storeList.Clear();
+        }
+
+        public void file()
+        {
+            using (TextWriter tw = new StreamWriter("C:/Users/abgun/test.txt"))
+            {
+                foreach (List<Tuple<string, string>> list in storeList)
+                {
+                    foreach (Tuple<string, string> tuple in list)
+                    {
+                        tw.WriteLine(tuple.Item1 + " " + tuple.Item2 + "\r\n");
+                    }
+                }
+            }
         }
     }
 }

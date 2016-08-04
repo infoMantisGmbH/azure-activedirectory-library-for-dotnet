@@ -101,10 +101,11 @@
     <Compile Include="DeviceCodeResponse.cs" />
     <Compile Include="DeviceCodeResult.cs" />
     <Compile Include="EventsBase.cs" />
-	<Compile Include="GrantEvent.cs" />
-	<Compile Include="HttpEvent.cs" />
-	<Compile Include="Telemetry.cs" />
-	<Compile Include="UIEvent.cs" />
+    <Compile Include="GrantEvent.cs" />
+    <Compile Include="HttpEvent.cs" />
+    <Compile Include="Telemetry.cs" />
+    <Compile Include="TelemetryStrings.cs" />
+    <Compile Include="UIEvent.cs" />
     <Compile Include="HttpClientWrapper.cs" />
     <Compile Include="HttpClientFactory.cs" />
     <Compile Include="HttpMessageHandlerFactory.cs" />

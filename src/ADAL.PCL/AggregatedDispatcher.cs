@@ -74,7 +74,11 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             {
                 eventValue.Add(eventsInterface);
                 ObjectsToBeDispatched.Add(requestId, eventValue);
+                return;
             }
+            eventValue = new List<EventsBase>();
+            eventValue.Add(eventsInterface);
+            ObjectsToBeDispatched.Add(requestId, eventValue);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal void StopEvent(string requestId, EventsBase Event,string eventName)
         {
             string value;
-            List<Tuple<string, string>> listEvent = Event.GetEvents(eventName);
+            List<Tuple<string, string>> listEvent = Event.GetEvents();
             if (EventTracking.
                 TryGetValue(new Tuple<string, string>(requestId, eventName), out value))
             {
@@ -96,7 +96,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal void DispatchEventNow(string requestId, EventsBase Event,string eventName)
         {
             EventTracking.Remove(new Tuple<string, string>(requestId, eventName));
-            List<Tuple<string, string>> listEvent = Event.GetEvents(eventName);
+            List<Tuple<string, string>> listEvent = Event.GetEvents();
             Dispatcher.Receive(requestId,Event);
         }
 

@@ -88,6 +88,7 @@
     <Compile Include="CacheQueryData.cs" />
     <Compile Include="CryptographyEvent.cs" />
     <Compile Include="CallState.cs" />
+    <Compile Include="IDispatcher.cs" />
     <Compile Include="ISecureClientSecret.cs" />
     <Compile Include="RequestData.cs" />
     <Compile Include="ClientAssertion.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="ClientKey.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DefaultDispatcher.cs" />
-    <Compile Include="Dispatcher.cs" />
     <Compile Include="DefaultEvent.cs" />
     <Compile Include="DeviceAuthJWTResponse.cs" />
     <Compile Include="DeviceCodeResponse.cs" />

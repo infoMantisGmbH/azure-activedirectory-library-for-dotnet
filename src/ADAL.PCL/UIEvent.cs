@@ -35,7 +35,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class UIEvent : DefaultEvent
     {
-        internal UIEvent(string eventName) : base(eventName)
+        internal UIEvent() : base(EventConstants.UIEvent)
         {
             //Fill in the default parameters
         }

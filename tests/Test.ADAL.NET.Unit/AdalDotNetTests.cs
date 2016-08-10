@@ -1496,6 +1496,7 @@ namespace Test.ADAL.NET.Unit
             }
         }
 
+        [TestMethod]
         [Description("Telemetry tests")]
         public void Telemetry()
         {
@@ -1511,8 +1512,8 @@ namespace Test.ADAL.NET.Unit
             Assert.AreEqual(telemetry.EventsStored(), 1);
 
             DefaultEvent testDefaultEvent = new DefaultEvent("random_event");
-            Assert.IsNotNull(testDefaultEvent.ApplicationName);
-            Assert.IsNotNull(testDefaultEvent.ApplicationVersion);
+            Assert.IsNotNull(DefaultEvent.ApplicationName);
+            Assert.IsNotNull(DefaultEvent.ApplicationVersion);
             Assert.AreEqual(testDefaultEvent.Tenant,"tid");
             Assert.AreEqual(testDefaultEvent.PasswordChangeUrl, "pwd_url");
             Assert.AreEqual(testDefaultEvent.PasswordExpiration, "pwd_exp");

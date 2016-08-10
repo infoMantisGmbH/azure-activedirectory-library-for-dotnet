@@ -35,20 +35,17 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class HttpEvent : DefaultEvent
     {
-        internal HttpEvent(string eventName) : base(eventName)
+        internal HttpEvent() : base(EventConstants.HttpEvent)
         {
             
         }
 
-        internal void SetQueryParameters()
+        internal void SetQueryParameters(string input)
         {
-            
+            //Will store the query parameters as string 
         }
 
-        internal void SetUrl(string Url)
-        {
-            
-        }
+        internal string SetUrl { get; set; }
 
         internal string UserAgent { get; set; }
 
@@ -66,6 +63,6 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal string ResponseApiVersion { get; set; }
 
-        internal string ResponseTime { get; set; }
+        internal string HttpBodyParameters { get; set; }
     }
 }

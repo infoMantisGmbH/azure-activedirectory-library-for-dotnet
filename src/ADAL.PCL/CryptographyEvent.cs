@@ -35,7 +35,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class CryptographyEvent : DefaultEvent
     {
-        internal CryptographyEvent(string eventName) : base(eventName)
+        internal CryptographyEvent() : base(EventConstants.CryptographyEvent)
         {
             
         }

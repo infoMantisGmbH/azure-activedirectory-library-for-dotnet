@@ -39,6 +39,6 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal abstract void SetEvent(string eventName, string eventParameter);
 
-        internal abstract List<Tuple<string, string>> GetEvents(string eventName);
+        internal abstract List<Tuple<string, string>> GetEvents();
     }
 }

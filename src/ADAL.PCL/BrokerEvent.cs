@@ -35,10 +35,9 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class BrokerEvent : DefaultEvent
     {
-        internal BrokerEvent(string eventName) : base(eventName)
+        internal BrokerEvent() : base(EventConstants.BrokerEvent)
         {
             //Fill in the default parameters
-            BrokerApp = "AuthenticatorApp";
             BrokerVersion = "2";
         }
 

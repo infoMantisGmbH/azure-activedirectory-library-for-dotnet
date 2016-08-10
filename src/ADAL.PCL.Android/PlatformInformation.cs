@@ -74,7 +74,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public override string GetApplicationName()
         {
-            return Application.Context.PackageManager.GetPackageInfo(Application.Context.PackageName, 0).ApplicationInfo.Name.ToString();
+            return Application.Context.PackageManager.GetPackageInfo(Application.Context.PackageName, 0).PackageName.ToString();
         }
 
         public override string GetApplicationVersion()

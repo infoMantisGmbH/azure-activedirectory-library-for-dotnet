@@ -35,11 +35,9 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class CacheEvent : DefaultEvent
     {
-        internal CacheEvent(string eventName) : base(eventName)
+        internal CacheEvent() : base(EventConstants.CacheEvent)
         {
             //Fill in the default parameters
         }
-
-        //Setters
     }
 }

@@ -70,7 +70,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         public async Task<IHttpWebResponse> GetResponseAsync()
         {
-            HttpEvent httpEvent = new HttpEvent("http_time");
+            HttpEvent httpEvent = new HttpEvent();
 
             using (HttpClient client = new HttpClient(HttpMessageHandlerFactory.GetMessageHandler(this.UseDefaultCredentials)))
             {
@@ -119,13 +119,18 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                     }
                     httpEvent.UserAgent=client.DefaultRequestHeaders.UserAgent.ToString();
                     httpEvent.RequestApiVersion = requestMessage.Version.ToString();
-                    httpEvent.HttpQueryParameters = this.BodyParameters.ToString();
+                    if (this.BodyParameters != null)
+                    {
+                        httpEvent.HttpBodyParameters = this.BodyParameters.ToString();
+                    }
                     httpEvent.HttpResponseMethod = requestMessage.Method.ToString();
-                    Telemetry.GetInstance().StartEvent(this.CallState.RequestId.ToString(),"http_time");
+                    Telemetry.GetInstance().StartEvent(this.CallState.RequestId.ToString(),httpEvent.eventName);
                     //make 
                     responseMessage = await client.SendAsync(requestMessage).ConfigureAwait(false);
                     //Stop Event
                     httpEvent.HttpResponseCode = responseMessage.StatusCode.ToString();
+                    httpEvent.SetUrl = requestMessage.RequestUri.ToString();
+                    httpEvent.HttpQueryParameters = requestMessage.RequestUri.Query.ToString();
                     //Telemetry.GetInstance().StopEvent(this.CallState.RequestId.ToString(),httpEvent);
                 }
                 catch (TaskCanceledException ex)

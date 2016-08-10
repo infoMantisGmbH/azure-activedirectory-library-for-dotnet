@@ -35,14 +35,9 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class GrantEvent : DefaultEvent
     {
-        internal GrantEvent(string eventName) : base(eventName)
+        internal GrantEvent() : base(EventConstants.GrantEvent)
         {
             //Fill in default parameters
         }
-
-        //Setters for the properties
-        internal string LoginHint { get; set; }
-
-        internal string DomainHint { get; set; }
     }
 }

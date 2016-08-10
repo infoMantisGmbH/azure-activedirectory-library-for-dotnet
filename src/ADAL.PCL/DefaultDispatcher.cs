@@ -53,7 +53,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal virtual void Receive(string requestId, EventsBase eventsInterface)
         {
-            Dispatcher.Dispatch(eventsInterface.GetEvents(requestId));
+            Dispatcher.Dispatch(eventsInterface.GetEvents());
         }
 
     }

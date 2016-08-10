@@ -42,12 +42,12 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
     public class DeviceID
     {
 
-        internal static string strDeviceID { get; set; }
+        internal static string CurrentDeviceID { get; private set; }
 
-        public DeviceID()
+        static DeviceID()
         {
-            strDeviceID = GetDeviceID();
-        }
+            CurrentDeviceID = GetDeviceID();
+        }   
 
 
         private static Int32 METHOD_BUFFERED = 0;
@@ -105,13 +105,20 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                             // required size is in the first 4 bytes of the output
                             // buffer (DEVICE_ID.dwSize).
                             nBuffSize = BitConverter.ToInt32(outbuff, 0);
-                            outbuff = new byte[nBuffSize];
-
-                            // Set DEVICEID.dwSize to size of buffer.  Some
-                            // platforms look at this field rather than the
-                            // nOutBufSize param of KernelIoControl when
-                            // determining if the buffer is large enough.
-                            BitConverter.GetBytes(nBuffSize).CopyTo(outbuff, 0);
+                            try
+                            {
+                                outbuff = new byte[nBuffSize];
+                                // Set DEVICEID.dwSize to size of buffer.  Some
+                                // platforms look at this field rather than the
+                                // nOutBufSize param of KernelIoControl when
+                                // determining if the buffer is large enough.
+                                BitConverter.GetBytes(nBuffSize).CopyTo(outbuff, 0);
+                            }
+                            catch (OutOfMemoryException OutOfMemory)
+                            {
+                                PlatformPlugin.Logger.Warning(null, "Unable to fetch the deviceID due to insufficient buffer size" + " Message :- " + OutOfMemory.Message);
+                                done = true;
+                            }
                             break;
 
                         default:

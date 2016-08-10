@@ -38,24 +38,35 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
     {
         internal static List<Tuple<string, string>> DefaultEvents = new List<Tuple<string, string>>();
 
+        static DefaultEvent()
+        {
+            ApplicationName = PlatformPlugin.PlatformInformation.GetApplicationName();
+
+            ApplicationVersion = PlatformPlugin.PlatformInformation.GetApplicationVersion();
+
+            SdkVersion = AdalIdHelper.GetAdalVersion();
+
+            SdkId = AdalIdHelper.GetAssemblyFileVersion();
+
+            DeviceId = PlatformPlugin.PlatformInformation.GetDeviceModel();
+        }
+
         internal DefaultEvent(string eventName)
         {
             SetEvent(TelemetryStrings.EventName,eventName);
             //Fill in the default parameters
-            ApplicationName = PlatformPlugin.PlatformInformation.GetApplicationName();
+
             SetEvent(TelemetryStrings.ApplicationName,ApplicationName);
 
-            ApplicationVersion = PlatformPlugin.PlatformInformation.GetApplicationVersion();
             SetEvent(TelemetryStrings.ApplicationVersion, ApplicationVersion);
 
-            SdkVersion = AdalIdHelper.GetAdalVersion();
             SetEvent(TelemetryStrings.SdkVersion, SdkVersion);
 
-            //SdkId = AdalIdHelper.GetAssemblyFileVersion();
+            SetEvent(TelemetryStrings.SdkId, SdkId);
 
-            DeviceId = PlatformPlugin.PlatformInformation.GetDeviceModel();
             SetEvent(TelemetryStrings.DeviceId, DeviceId);
 
+            //TODO :- The idtoken claims will be filled in dynamically
             Tenant = IdTokenClaim.TenantId;
             SetEvent(TelemetryStrings.Tenant, Tenant);
 
@@ -86,7 +97,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             DefaultEvents.Add(new Tuple<string, string>(eventName, eventParameter));
         }
 
-        internal override List<Tuple<string, string>> GetEvents(string requestId)
+        internal override List<Tuple<string, string>> GetEvents()
         {
             return DefaultEvents;
         }
@@ -97,17 +108,17 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal string ClientIp { get; set; }
 
-        internal string ApplicationName { get; set; }
+        internal static string ApplicationName { get; set; }
 
-        internal string ApplicationVersion { get; set; }
+        internal static string ApplicationVersion { get; set; }
 
-        internal string SdkId { get; set; }
+        internal static string SdkId { get; set; }
 
-        internal string SdkVersion { get; set; }
+        internal static string SdkVersion { get; set; }
 
         internal string UserId { get; set; }
 
-        internal string DeviceId { get; set; }
+        internal static string DeviceId { get; set; }
 
         internal string Tenant { get; set; }
 

@@ -50,7 +50,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             {
                 foreach (EventsBase Event in pair.Value)
                 {
-                    List<Tuple<string, string>> EventList = Event.GetEvents(pair.Key);
+                    List<Tuple<string, string>> EventList = Event.GetEvents();
                     if (first)
                     {
                         FlatList.AddRange(EventList);

@@ -53,43 +53,43 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal DefaultEvent(string eventName)
         {
-            SetEvent(TelemetryStrings.EventName,eventName);
+            SetEvent(EventConstants.EventName,eventName);
             //Fill in the default parameters
 
-            SetEvent(TelemetryStrings.ApplicationName,ApplicationName);
+            SetEvent(EventConstants.ApplicationName,ApplicationName);
 
-            SetEvent(TelemetryStrings.ApplicationVersion, ApplicationVersion);
+            SetEvent(EventConstants.ApplicationVersion, ApplicationVersion);
 
-            SetEvent(TelemetryStrings.SdkVersion, SdkVersion);
+            SetEvent(EventConstants.SdkVersion, SdkVersion);
 
-            SetEvent(TelemetryStrings.SdkId, SdkId);
+            SetEvent(EventConstants.SdkId, SdkId);
 
-            SetEvent(TelemetryStrings.DeviceId, DeviceId);
+            SetEvent(EventConstants.DeviceId, DeviceId);
 
             //TODO :- The idtoken claims will be filled in dynamically
             Tenant = IdTokenClaim.TenantId;
-            SetEvent(TelemetryStrings.Tenant, Tenant);
+            SetEvent(EventConstants.Tenant, Tenant);
 
             Issuer = IdTokenClaim.Issuer;
-            SetEvent(TelemetryStrings.Issuer, Issuer);
+            SetEvent(EventConstants.Issuer, Issuer);
 
             Idp = IdTokenClaim.IdentityProvider;
-            SetEvent(TelemetryStrings.Idp, Idp);
+            SetEvent(EventConstants.Idp, Idp);
 
             Upn = IdTokenClaim.UPN;
-            SetEvent(TelemetryStrings.Upn, Upn);
+            SetEvent(EventConstants.Upn, Upn);
 
             Email = IdTokenClaim.Email;
-            SetEvent(TelemetryStrings.Email, Email);
+            SetEvent(EventConstants.Email, Email);
 
             PasswordExpiration = IdTokenClaim.PasswordExpiration;
-            SetEvent(TelemetryStrings.PasswordExpiration, PasswordExpiration);
+            SetEvent(EventConstants.PasswordExpiration, PasswordExpiration);
 
             PasswordChangeUrl = IdTokenClaim.PasswordChangeUrl;
-            SetEvent(TelemetryStrings.PasswordChangeUrl, PasswordChangeUrl);
+            SetEvent(EventConstants.PasswordChangeUrl, PasswordChangeUrl);
 
             FamilyName = IdTokenClaim.FamilyName;
-            SetEvent(TelemetryStrings.FamilyName,FamilyName);
+            SetEvent(EventConstants.FamilyName,FamilyName);
         }
 
         internal override void SetEvent(string eventName, string eventParameter)

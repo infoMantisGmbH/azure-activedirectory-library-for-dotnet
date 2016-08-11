@@ -224,7 +224,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         public static CallState CreateCallState(Guid correlationId)
         {
             correlationId = (correlationId != Guid.Empty) ? correlationId : Guid.NewGuid();
-            return new CallState(correlationId);
+            return new CallState(correlationId, Guid.NewGuid());
         }
 
         protected virtual Task PostRunAsync(AuthenticationResult result)

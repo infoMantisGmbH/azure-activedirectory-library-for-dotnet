@@ -1535,9 +1535,9 @@ namespace Test.ADAL.NET.Unit
             Assert.AreEqual(dispatcher.Count,2);
 
             string requestIDFour = telemetry.RegisterNewRequest();
-            telemetry.StartEvent(requestIDFour, "crypto_event");
-            DefaultEvent cryptoDefaultEvent = new DefaultEvent("crypto_event");
-            telemetry.StopEvent(requestIDFour, cacheDefaultEvent, "crypto_event");
+            telemetry.StartEvent(requestIDFour, EventConstants.Crypto);
+            DefaultEvent cryptoDefaultEvent = new DefaultEvent(EventConstants.Crypto);
+            telemetry.StopEvent(requestIDFour, cacheDefaultEvent, EventConstants.Crypto);
             Assert.AreEqual(dispatcher.Count, 3);
 
             dispatcher.file();

@@ -81,16 +81,13 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                 DateTime startTime = DateTimeOffset.Parse(value).UtcDateTime;
                 System.TimeSpan diff1 = DateTime.UtcNow.Subtract(startTime);
                 //Add the response time to the list
-                listEvent.Add(new Tuple<string, string>("response_time",diff1.ToString()));
+                listEvent.Add(new Tuple<string, string>(EventConstants.ResponseTime,diff1.ToString()));
                 //Adding event name to the start of the list
-                listEvent.Insert(0, new Tuple<string, string>("EventName",eventName));
+                listEvent.Insert(0, new Tuple<string, string>(EventConstants.EventName,eventName));
                 //Remove the event from the tracking Map
                 EventTracking.Remove(new Tuple<string, string>(requestId, eventName));
             }
             Dispatcher.Receive(requestId,Event);
-            //remove it from the map
-            //time calculation
-            //add the response time
         }
 
         internal void DispatchEventNow(string requestId, EventsBase Event,string eventName)
@@ -99,10 +96,6 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             List<Tuple<string, string>> listEvent = Event.GetEvents();
             Dispatcher.Receive(requestId,Event);
         }
-
-        internal string StartTime { get; set; }
-
-        internal string EndTime { get; set; }
 
         internal int EventsStored()
         {

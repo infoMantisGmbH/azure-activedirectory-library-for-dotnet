@@ -33,11 +33,12 @@ using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    internal class GrantEvent : DefaultEvent
+    internal class APIEvent : DefaultEvent
     {
-        internal GrantEvent() : base(EventConstants.GrantEvent)
+        internal APIEvent() : base(EventConstants.GrantEvent)
         {
             //Fill in default parameters
         }
     }
 }
+

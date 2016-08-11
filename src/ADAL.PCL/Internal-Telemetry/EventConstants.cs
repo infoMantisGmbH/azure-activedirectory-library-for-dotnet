@@ -31,5 +31,6 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         public const string CryptographyEvent = "CryptograpgyEvent";
         public const string UIEvent = "UIEvent";
         public const string CacheEvent = "CacheEvent";
+        public const string Crypto = "CryptoEvent";
     }
 }

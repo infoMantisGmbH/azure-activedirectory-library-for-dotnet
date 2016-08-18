@@ -39,6 +39,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
     public class Telemetry
     {
         private readonly static Telemetry Instance = new Telemetry();
+        private readonly String format = "yyyy-mm-dd hh:mm:ss.ffffff";
 
         public static Telemetry GetInstance()
         {
@@ -68,7 +69,10 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal void StartEvent(string requestId, string eventName)
         {
-            EventTracking.Add(new Tuple<string, string>(requestId,eventName),DateTime.UtcNow.ToString());
+            if (! EventTracking.ContainsKey(new Tuple<string, string>(requestId, eventName)))
+            {
+                EventTracking.Add(new Tuple<string, string>(requestId, eventName), DateTime.UtcNow.ToString(format));
+            }
         }
 
         internal void StopEvent(string requestId, EventsBase Event,string eventName)
@@ -81,7 +85,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                 DateTime startTime = DateTimeOffset.Parse(value).UtcDateTime;
                 System.TimeSpan diff1 = DateTime.UtcNow.Subtract(startTime);
                 //Add the response time to the list
-                listEvent.Add(new Tuple<string, string>(EventConstants.ResponseTime,diff1.ToString()));
+                listEvent.Add(new Tuple<string, string>(EventConstants.ResponseTime,diff1.ToString(format)));
                 //Adding event name to the start of the list
                 listEvent.Insert(0, new Tuple<string, string>(EventConstants.EventName,eventName));
                 //Remove the event from the tracking Map

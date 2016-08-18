@@ -40,27 +40,27 @@ using UIKit;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
-    [SecurityCritical]
+
     internal class PlatformInformation : PlatformInformationBase
     {
-        [SecurityCritical]
+
         public override string GetProductName()
         {
             return "PCL.iOS";
         }
-        [SecurityCritical]
+
         public override string GetEnvironmentVariable(string variable)
         {
             // TODO: Update
             return null;
         }
-        [SecurityCritical]
+
         public override Task<string> GetUserPrincipalNameAsync()
         {
             // TODO: Update
             return null;
         }
-        [SecurityCritical]
+
         public override string GetProcessorArchitecture()
         {
             return null;

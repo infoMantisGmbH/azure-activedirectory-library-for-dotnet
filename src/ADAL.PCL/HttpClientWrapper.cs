@@ -131,7 +131,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                     httpEvent.HttpResponseCode = responseMessage.StatusCode.ToString();
                     httpEvent.SetUrl = requestMessage.RequestUri.ToString();
                     httpEvent.HttpQueryParameters = requestMessage.RequestUri.Query.ToString();
-                    //Telemetry.GetInstance().StopEvent(this.CallState.RequestId.ToString(),httpEvent);
+                    Telemetry.GetInstance().StopEvent(this.CallState.RequestId.ToString(),httpEvent,httpEvent.eventName);
                 }
                 catch (TaskCanceledException ex)
                 {

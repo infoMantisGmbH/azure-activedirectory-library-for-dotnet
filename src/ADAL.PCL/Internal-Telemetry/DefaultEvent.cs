@@ -27,9 +27,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
@@ -48,7 +45,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
             SdkId = AdalIdHelper.GetAssemblyFileVersion();
 
-            DeviceId = PlatformPlugin.PlatformInformation.GetDeviceModel();
+            DeviceId = PlatformPlugin.CryptographyHelper.CreateSha256Hash(PlatformPlugin.PlatformInformation.GetDeviceModel());
         }
 
         internal DefaultEvent(string eventName)

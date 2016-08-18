@@ -39,41 +39,47 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             Dispatcher = dispatcher;
         }
 
-        internal void Flush()
+        internal override void Flush(string requestID)
         {
             bool first = true;
             List<Tuple<string, string>> FlatList = new List<Tuple<string, string>>();
             foreach (KeyValuePair<string, List<EventsBase>> pair in ObjectsToBeDispatched)
             {
-                foreach (EventsBase Event in pair.Value)
+                if (requestID.Equals(pair.Key))
                 {
-                    List<Tuple<string, string>> EventList = Event.GetEvents();
-                    if (first)
+                    foreach (EventsBase Event in pair.Value)
                     {
-                        FlatList.AddRange(EventList);
-                        first = false;
-                        continue;
-                    }
-                    for (int i = DefaultCount; i < EventList.Count; i++)
-                    {
-                        FlatList.Add(EventList[i]);
+                        List<Tuple<string, string>> EventList = Event.GetEvents();
+                        if (first)
+                        {
+                            FlatList.AddRange(EventList);
+                            first = false;
+                            continue;
+                        }
+                        for (int i = DefaultCount; i < EventList.Count; i++)
+                        {
+                            FlatList.Add(EventList[i]);
+                        }
                     }
                 }
-
             }
-            Dispatcher.Dispatch(FlatList);
+            if (Dispatcher != null)
+            {
+                Dispatcher.Dispatch(FlatList);
+            }
+           else
+            {
+                PlatformPlugin.Logger.Warning(null, "Dispatcher implementation is not provided");
+            }
         }
 
         internal override void Receive(string requestId, EventsBase eventsInterface)
         {
             List<EventsBase> eventValue;
-            if (ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
+            if (! ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
             {
-                eventValue.Add(eventsInterface);
-                ObjectsToBeDispatched.Add(requestId, eventValue);
-                return;
+                eventValue = new List<EventsBase>();
             }
-            eventValue = new List<EventsBase>();
             eventValue.Add(eventsInterface);
             ObjectsToBeDispatched.Add(requestId, eventValue);
         }

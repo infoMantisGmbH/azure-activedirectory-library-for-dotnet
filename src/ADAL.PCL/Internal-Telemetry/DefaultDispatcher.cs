@@ -25,13 +25,10 @@
 //
 //------------------------------------------------------------------------------
 
-using System;
+
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
@@ -53,8 +50,14 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal virtual void Receive(string requestId, EventsBase eventsInterface)
         {
-            Dispatcher.Dispatch(eventsInterface.GetEvents());
+            if (Dispatcher != null)
+            {
+                Dispatcher.Dispatch(eventsInterface.GetEvents());
+            }
+            else
+            {
+                PlatformPlugin.Logger.Warning(null, "Dispatcher implementation is not provided");
+            }
         }
-
     }
 }

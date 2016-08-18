@@ -42,7 +42,5 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         public Guid RequestId { get; set; }
 
         public AuthorityType AuthorityType { get; internal set; }
-
-
     }
 }

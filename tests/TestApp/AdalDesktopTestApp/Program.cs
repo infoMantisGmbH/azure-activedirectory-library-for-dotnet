@@ -56,12 +56,17 @@ namespace AdalDesktopTestApp
 
         private static async Task AcquireTokenAsync()
         {
-            AuthenticationContext context = new AuthenticationContext("https://login.microsoftonline.com/common", true);
-            var result = await context.AcquireTokenAsync("https://graph.windows.net", "<CLIENT_ID>", new UserCredential("<user>"));
+            Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry telemetry =
+Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry.GetInstance();
+            DispatcherImplement dispatcher = new DispatcherImplement();
+            telemetry.RegisterDispatcher(dispatcher, true);
 
+            AuthenticationContext context = new AuthenticationContext("https://login.microsoftonline.com/common", true);
+            var result = await context.AcquireTokenAsync("https://graph.windows.net", "193faa18-0c0b-45f3-9125-b08ff04d9890", new UserPasswordCredential("test@abgun.onmicrosoft.com", "P@ssword<"));
+
+            dispatcher.file();
             string token = result.AccessToken;
             Console.WriteLine(token + "\n");
-            
         }
     }
 

@@ -32,7 +32,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     class AggregatedDispatcher : DefaultDispatcher
     {
-        private int DefaultCount = 12;
+        private int DefaultCount = 2;
 
         internal AggregatedDispatcher(IDispatcher dispatcher):base(dispatcher)
         {
@@ -56,6 +56,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                             first = false;
                             continue;
                         }
+                        FlatList.Add(EventList[0]);
                         for (int i = DefaultCount; i < EventList.Count; i++)
                         {
                             FlatList.Add(EventList[i]);
@@ -76,10 +77,13 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal override void Receive(string requestId, EventsBase eventsInterface)
         {
             List<EventsBase> eventValue;
-            if (! ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
+            if (ObjectsToBeDispatched.TryGetValue(requestId, out eventValue))
             {
-                eventValue = new List<EventsBase>();
+                eventValue.Add(eventsInterface);
+                ObjectsToBeDispatched[requestId] = eventValue;
+                return;
             }
+            eventValue = new List<EventsBase>();
             eventValue.Add(eventsInterface);
             ObjectsToBeDispatched.Add(requestId, eventValue);
         }

@@ -1497,8 +1497,8 @@ namespace Test.ADAL.NET.Unit
         }
 
         [TestMethod]
-        [Description("Telemetry tests")]
-        public void Telemetry()
+        [Description("Telemetry tests Default Dispatcher")]
+        public void TelemetryDefaultDispatcher()
         {
             Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry telemetry =
             Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry.GetInstance();
@@ -1514,15 +1514,11 @@ namespace Test.ADAL.NET.Unit
             DefaultEvent testDefaultEvent = new DefaultEvent("random_event");
             Assert.IsNotNull(DefaultEvent.ApplicationName);
             Assert.IsNotNull(DefaultEvent.ApplicationVersion);
-            Assert.AreEqual(testDefaultEvent.Tenant,"tid");
-            Assert.AreEqual(testDefaultEvent.PasswordChangeUrl, "pwd_url");
-            Assert.AreEqual(testDefaultEvent.PasswordExpiration, "pwd_exp");
-            Assert.AreEqual(testDefaultEvent.Idp,"idp");
-            Assert.AreEqual(testDefaultEvent.Issuer,"iss");
 
             DispatcherImplement dispatcher = new DispatcherImplement();
             telemetry.RegisterDispatcher(dispatcher,true);
             dispatcher.clear();
+
             string requestIDThree = telemetry.RegisterNewRequest();
             telemetry.StartEvent(requestIDThree, "event_3");
             telemetry.StopEvent(requestIDThree,testDefaultEvent,"event_3");
@@ -1539,6 +1535,64 @@ namespace Test.ADAL.NET.Unit
             DefaultEvent cryptoDefaultEvent = new DefaultEvent(EventConstants.Crypto);
             telemetry.StopEvent(requestIDFour, cacheDefaultEvent, EventConstants.Crypto);
             Assert.AreEqual(dispatcher.Count, 3);
+
+            dispatcher.file();
+        }
+
+        [TestMethod]
+        [Description("Telemetry tests Aggregate Dispatcher for a single event in requestID")]
+        public void TelemetryAggregateDispatcherSingleEventRequestID()
+        {
+            Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry telemetry =
+Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry.GetInstance();
+            Assert.IsNotNull(telemetry);
+
+            DispatcherImplement dispatcher = new DispatcherImplement();
+            telemetry.RegisterDispatcher(dispatcher, false);
+            dispatcher.clear();
+            string requestIDThree = telemetry.RegisterNewRequest();
+            telemetry.StartEvent(requestIDThree, "event_3");
+            DefaultEvent testDefaultEvent = new DefaultEvent("event_3");
+            Assert.IsNotNull(DefaultEvent.ApplicationName);
+            Assert.IsNotNull(DefaultEvent.ApplicationVersion);
+            telemetry.StopEvent(requestIDThree, testDefaultEvent, "event_3");
+            telemetry.flush(requestIDThree);
+            Assert.AreEqual(dispatcher.Count, 1);
+
+            dispatcher.file();
+        }
+
+        [TestMethod]
+        [Description("Telemetry tests for Aggregate Dispatcher for multiple events in requestID")]
+        public void TelemetryAggregateDispatcherMultipleEventsRequestId()
+        {
+            Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry telemetry =
+Microsoft.IdentityModel.Clients.ActiveDirectory.Telemetry.GetInstance();
+            Assert.IsNotNull(telemetry);
+
+            DispatcherImplement dispatcher = new DispatcherImplement();
+            telemetry.RegisterDispatcher(dispatcher, false);
+            dispatcher.clear();
+            string requestIDThree = telemetry.RegisterNewRequest();
+            telemetry.StartEvent(requestIDThree, "event_3");
+            DefaultEvent testDefaultEvent3 = new DefaultEvent("event_3");
+            Assert.IsNotNull(DefaultEvent.ApplicationName);
+            Assert.IsNotNull(DefaultEvent.ApplicationVersion);
+            telemetry.StopEvent(requestIDThree, testDefaultEvent3, "event_3");
+
+            telemetry.StartEvent(requestIDThree, "event_4");
+            DefaultEvent testDefaultEvent4 = new DefaultEvent("event_4");
+            Assert.IsNotNull(DefaultEvent.ApplicationName);
+            Assert.IsNotNull(DefaultEvent.ApplicationVersion);
+            telemetry.StopEvent(requestIDThree, testDefaultEvent4, "event_4");
+
+            telemetry.StartEvent(requestIDThree, "event_5");
+            DefaultEvent testDefaultEvent5 = new DefaultEvent("event_5");
+            Assert.IsNotNull(DefaultEvent.ApplicationName);
+            Assert.IsNotNull(DefaultEvent.ApplicationVersion);
+            telemetry.StopEvent(requestIDThree, testDefaultEvent5, "event_5");
+            telemetry.flush(requestIDThree);
+            Assert.AreEqual(dispatcher.Count, 1);
 
             dispatcher.file();
         }

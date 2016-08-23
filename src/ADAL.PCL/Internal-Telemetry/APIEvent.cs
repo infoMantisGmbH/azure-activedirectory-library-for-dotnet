@@ -38,7 +38,51 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal APIEvent() : base(EventConstants.GrantEvent)
         {
             //Fill in default parameters
+            Tenant = IdTokenClaim.TenantId;
+            SetEvent(EventConstants.Tenant, Tenant);
+
+            Issuer = IdTokenClaim.Issuer;
+            SetEvent(EventConstants.Issuer, Issuer);
+
+            Idp = IdTokenClaim.IdentityProvider;
+            SetEvent(EventConstants.Idp, Idp);
+
+            Upn = IdTokenClaim.UPN;
+            SetEvent(EventConstants.Upn, Upn);
+
+            Email = IdTokenClaim.Email;
+            SetEvent(EventConstants.Email, Email);
+
+            PasswordExpiration = IdTokenClaim.PasswordExpiration;
+            SetEvent(EventConstants.PasswordExpiration, PasswordExpiration);
+
+            PasswordChangeUrl = IdTokenClaim.PasswordChangeUrl;
+            SetEvent(EventConstants.PasswordChangeUrl, PasswordChangeUrl);
+
+            FamilyName = IdTokenClaim.FamilyName;
+            SetEvent(EventConstants.FamilyName, FamilyName);
         }
+
+        internal override void SetEvent(string eventName, string eventParameter)
+        {
+            DefaultEvents.Add(new Tuple<string, string>(eventName, eventParameter));
+        }
+
+        internal string Tenant { get; set; }
+
+        internal string Issuer { get; set; }
+
+        internal string Idp { get; set; }
+
+        internal string Upn { get; set; }
+
+        internal string Email { get; set; }
+
+        internal string PasswordExpiration { get; set; }
+
+        internal string PasswordChangeUrl { get; set; }
+
+        internal string FamilyName { get; set; }
     }
 }
 

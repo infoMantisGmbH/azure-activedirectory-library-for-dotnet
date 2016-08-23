@@ -33,7 +33,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class DefaultEvent : EventsBase
     {
-        internal static List<Tuple<string, string>> DefaultEvents = new List<Tuple<string, string>>();
+        internal List<Tuple<string, string>> DefaultEvents = new List<Tuple<string, string>>();
 
         static DefaultEvent()
         {
@@ -50,7 +50,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal DefaultEvent(string eventName)
         {
-            SetEvent(EventConstants.EventName,eventName);
+            //SetEvent(EventConstants.EventName,eventName);
             //Fill in the default parameters
 
             SetEvent(EventConstants.ApplicationName,ApplicationName);
@@ -64,29 +64,6 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             SetEvent(EventConstants.DeviceId, DeviceId);
 
             //TODO :- The idtoken claims will be filled in dynamically
-            Tenant = IdTokenClaim.TenantId;
-            SetEvent(EventConstants.Tenant, Tenant);
-
-            Issuer = IdTokenClaim.Issuer;
-            SetEvent(EventConstants.Issuer, Issuer);
-
-            Idp = IdTokenClaim.IdentityProvider;
-            SetEvent(EventConstants.Idp, Idp);
-
-            Upn = IdTokenClaim.UPN;
-            SetEvent(EventConstants.Upn, Upn);
-
-            Email = IdTokenClaim.Email;
-            SetEvent(EventConstants.Email, Email);
-
-            PasswordExpiration = IdTokenClaim.PasswordExpiration;
-            SetEvent(EventConstants.PasswordExpiration, PasswordExpiration);
-
-            PasswordChangeUrl = IdTokenClaim.PasswordChangeUrl;
-            SetEvent(EventConstants.PasswordChangeUrl, PasswordChangeUrl);
-
-            FamilyName = IdTokenClaim.FamilyName;
-            SetEvent(EventConstants.FamilyName,FamilyName);
         }
 
         internal override void SetEvent(string eventName, string eventParameter)
@@ -117,20 +94,5 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal static string DeviceId { get; set; }
 
-        internal string Tenant { get; set; }
-
-        internal string Issuer { get; set; }
-
-        internal string Idp { get; set; }
-
-        internal string Upn { get; set; }
-
-        internal string Email { get; set; }
-
-        internal string PasswordExpiration { get; set; }
-
-        internal string PasswordChangeUrl { get; set; }
-
-        internal string FamilyName { get; set; }
     }
 }

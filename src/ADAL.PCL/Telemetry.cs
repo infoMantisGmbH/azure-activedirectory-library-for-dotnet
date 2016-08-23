@@ -28,18 +28,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     public class Telemetry
     {
         private readonly static Telemetry Instance = new Telemetry();
-        private readonly String format = "yyyy-mm-dd hh:mm:ss.ffffff";
+        private readonly String format = "yyyy-mm-dd hh:mm:ss:ffff";
 
         public static Telemetry GetInstance()
         {
@@ -52,18 +47,25 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
         internal string RegisterNewRequest()
         {
-            return new Guid().ToString();
+            return Guid.NewGuid().ToString();
         }
 
         public void RegisterDispatcher(IDispatcher dispatcher, bool aggregationRequired)
         {
-            if (aggregationRequired)
+            if (dispatcher != null)
             {
-                Dispatcher = new DefaultDispatcher(dispatcher);
+                if (aggregationRequired)
+                {
+                    Dispatcher = new DefaultDispatcher(dispatcher);
+                }
+                else
+                {
+                    Dispatcher = new AggregatedDispatcher(dispatcher);
+                }
             }
             else
             {
-                Dispatcher = new AggregatedDispatcher(dispatcher);
+                //TODO :- Throw Dispatcher is null exception
             }
         }
 
@@ -71,7 +73,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         {
             if (! EventTracking.ContainsKey(new Tuple<string, string>(requestId, eventName)))
             {
-                EventTracking.Add(new Tuple<string, string>(requestId, eventName), DateTime.UtcNow.ToString(format));
+                EventTracking.Add(new Tuple<string, string>(requestId, eventName), DateTime.UtcNow.ToString());
             }
         }
 
@@ -83,11 +85,17 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
                 TryGetValue(new Tuple<string, string>(requestId, eventName), out value))
             {
                 DateTime startTime = DateTimeOffset.Parse(value).UtcDateTime;
-                System.TimeSpan diff1 = DateTime.UtcNow.Subtract(startTime);
+                DateTime stopTime = DateTime.UtcNow;
+
+                listEvent.Add(new Tuple<string, string>(EventConstants.StartTime, startTime.ToString(format)));
+                listEvent.Add(new Tuple<string, string>(EventConstants.StopTime, stopTime.ToString(format)));
+
+                System.TimeSpan diff1 = startTime.Subtract(stopTime);
                 //Add the response time to the list
-                listEvent.Add(new Tuple<string, string>(EventConstants.ResponseTime,diff1.ToString(format)));
+                listEvent.Add(new Tuple<string, string>(EventConstants.ResponseTime,diff1.ToString()));
                 //Adding event name to the start of the list
                 listEvent.Insert(0, new Tuple<string, string>(EventConstants.EventName,eventName));
+                listEvent.Add(new Tuple<string, string>(EventConstants.RequestId, requestId));
                 //Remove the event from the tracking Map
                 EventTracking.Remove(new Tuple<string, string>(requestId, eventName));
             }
@@ -104,6 +112,14 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal int EventsStored()
         {
             return EventTracking.Count;
+        }
+
+        internal void flush(string requestId)
+        {
+            if (Dispatcher != null)
+            {
+                Dispatcher.Flush(requestId);
+            }
         }
     }
 }

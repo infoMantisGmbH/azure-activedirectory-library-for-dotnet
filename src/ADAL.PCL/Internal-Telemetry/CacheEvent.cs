@@ -35,9 +35,30 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class CacheEvent : DefaultEvent
     {
-        internal CacheEvent() : base(EventConstants.CacheEvent)
+        internal CacheEvent(string eventName) : base(EventConstants.CacheEvent)
         {
             //Fill in the default parameters
+            this.EventName = eventName;
         }
+
+        internal string EventName { get; set; }
+
+        internal string IsMultipleResourceRt { get; set; }
+
+        internal string TokenFound { get; set; }
+
+        internal string TokenNearExpiry { get; set; }
+
+        internal string TokenExtendedLifeTimeExpired { get; set; }
+
+        internal string IsCrossTenantRt { get; set; }
+
+        internal string TokenExpired { get; set; }
+
+        internal string ExtendedLifeTimeEnabled { get; set; }
+
+        internal string ExpiredAt { get; set; }
+
+        internal string TokenSubjectType { get; set; }
     }
 }

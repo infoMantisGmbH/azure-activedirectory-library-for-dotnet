@@ -35,5 +35,15 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         public const string RequestId = "RequestId";
         public const string StartTime = "Start Time";
         public const string StopTime = "Stop Time";
+        public const string Authority = "Authority";
+        public const string AuthorityType = "AuthorityType";
+        public const string AuthorizationUri = "AuthorizationUri";
+        public const string CorrelationId = "CorrelationId";
+        public const string DeviceCodeUri = "DeviceCodeUri";
+        public const string IsTenantless = "IsTenantless";
+        public const string SelfSignedJwtAudience = "SelfSignedJwtAudience";
+        public const string TokenUri = "TokenUri";
+        public const string UserRealmUri = "UserRealmUri";
+        public const string ValidateAuthority = "ValidateAuthority";
     }
 }

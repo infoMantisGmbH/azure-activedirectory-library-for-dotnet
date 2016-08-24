@@ -26,16 +26,13 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security;
 
 namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 {
     internal class APIEvent : DefaultEvent
     {
-        internal APIEvent() : base(EventConstants.GrantEvent)
+        internal APIEvent(Authenticator authenticator) : base(EventConstants.GrantEvent)
         {
             //Fill in default parameters
             Tenant = IdTokenClaim.TenantId;
@@ -61,6 +58,39 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
 
             FamilyName = IdTokenClaim.FamilyName;
             SetEvent(EventConstants.FamilyName, FamilyName);
+
+            Authority = authenticator.Authority;
+            SetEvent(EventConstants.Authority,Authority);
+
+            AuthorityType = authenticator.AuthorityType.ToString();
+            SetEvent(EventConstants.AuthorityType,AuthorityType);
+
+            AuthorizationUri = authenticator.AuthorizationUri;
+            SetEvent(EventConstants.AuthorizationUri, AuthorizationUri);
+
+            CorrelationId = authenticator.CorrelationId.ToString();
+            SetEvent(EventConstants.CorrelationId,CorrelationId);
+
+            DeviceCodeUri = PlatformPlugin.CryptographyHelper.CreateSha256Hash(authenticator.DeviceCodeUri);
+            SetEvent(EventConstants.DeviceCodeUri,DeviceCodeUri);
+
+            IsTenantless = authenticator.IsTenantless.ToString();
+            SetEvent(EventConstants.IsTenantless,IsTenantless);
+
+            SelfSignedJwtAudience = authenticator.SelfSignedJwtAudience;
+            SetEvent(EventConstants.SelfSignedJwtAudience,SelfSignedJwtAudience);
+
+            TokenUri = PlatformPlugin.CryptographyHelper.CreateSha256Hash(authenticator.TokenUri);
+            SetEvent(EventConstants.TokenUri,TokenUri);
+
+            UserRealmUri = authenticator.UserRealmUri;
+            SetEvent(EventConstants.UserRealmUri,UserRealmUri);
+
+            ValidateAuthority = authenticator.ValidateAuthority.ToString();
+            SetEvent(EventConstants.ValidateAuthority,ValidateAuthority);
+
+            RequestId = authenticator.RequestId.ToString();
+            SetEvent(EventConstants.RequestId,RequestId);
         }
 
         internal override void SetEvent(string eventName, string eventParameter)
@@ -69,6 +99,8 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         }
 
         internal string Tenant { get; set; }
+
+        internal string RequestId { get; set; }
 
         internal string Issuer { get; set; }
 
@@ -83,6 +115,30 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         internal string PasswordChangeUrl { get; set; }
 
         internal string FamilyName { get; set; }
+
+        internal string Authority { get; set; }
+
+        internal string AuthorityType { get; set; }
+
+        internal string AuthorizationUri { get; set; }
+
+        internal string CorrelationId { get; set; }
+
+        internal string DeviceCodeUri { get; set; }
+
+        internal string IsTenantless { get; set; }
+
+        internal string SelfSignedJwtAudience { get; set; }
+
+        internal string TokenUri { get; set; }
+
+        internal string UserRealmUri { get; set; }
+
+        internal string ValidateAuthority { get; set; }
+
+        internal string UpdateFromTemplateAsync { get; set; }
+
+        internal string UpdateTenantId { get; set; }
     }
 }
 

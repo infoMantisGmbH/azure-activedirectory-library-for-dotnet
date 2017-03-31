@@ -258,7 +258,11 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
             var requestParameters = new DictionaryRequestParameters(this.Resource, this.ClientKey);
             requestParameters[OAuthParameter.GrantType] = OAuthGrantType.RefreshToken;
             requestParameters[OAuthParameter.RefreshToken] = refreshToken;
-            requestParameters[OAuthParameter.Scope] = OAuthValue.ScopeOpenId;
+
+			// infoMantis workaround, damit ein silent refreh ein Token Anfragen kann:
+			// http://stackoverflow.com/a/42581673
+			// http://www.cloudidentity.com/blog/2015/08/13/adal-3-didnt-return-refresh-tokens-for-5-months-and-nobody-noticed/
+            // requestParameters[OAuthParameter.Scope] = OAuthValue.ScopeOpenId;
 
             AuthenticationResultEx result = await this.SendHttpMessageAsync(requestParameters).ConfigureAwait(false);
 

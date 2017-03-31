@@ -39,12 +39,7 @@ namespace Microsoft.IdentityModel.Clients.ActiveDirectory
         public const string RedirectUri = "redirect_uri";
         public const string Resource = "resource";
         public const string Code = "code";
-
-		// Change by infoMantis: Der scope-Parameter wird vom AD FS nicht akzeptiert und muss stattdessen resource heißen
-		// Ekeliger Hotfix an dieser Stelle. Es ist zu prüfen, ob und wie dieser Parameter per Konfiguration beeinflussbar ist.
-		//public const string Scope = "scope";
-        public const string Scope = "resource";
-
+        public const string Scope = "scope";
         public const string Assertion = "assertion";
         public const string RequestedTokenUse = "requested_token_use";
         public const string Username = "username";
